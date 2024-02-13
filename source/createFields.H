@@ -12,6 +12,20 @@ volScalarField p
     mesh
 );
 
+volScalarField T
+(
+    IOobject
+    (
+        "T",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+
 Info<< "Reading field U\n" << endl;
 volVectorField U
 (
@@ -77,3 +91,24 @@ surfaceScalarField phiHbyA
     ),
     fvc::flux(U)
 );
+
+//turbulent thermal diffusivity
+Info<< "Reading field alphat\n" << endl;
+volScalarField alphat
+(
+    IOobject
+    (
+        "alphat",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+// Laminar Prandtl number
+dimensionedScalar Pr("Pr", dimless, laminarTransport);
+
+// Turbulent Prandtl number
+dimensionedScalar Prt("Prt", dimless, laminarTransport);
